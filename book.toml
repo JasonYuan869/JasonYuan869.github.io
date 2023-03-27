@@ -1,0 +1,9 @@
+[book]
+authors = ["Jason Yuan"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Jason Yuan"
+
+[output.html]
+mathjax-support = true
