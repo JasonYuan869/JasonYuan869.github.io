@@ -27,23 +27,40 @@
   </div>
 
   <!-- Body -->
-  <div class="min-h-[calc(100vh-80px)] md:min-h-0 hero flex flex-col justify-center items-center md:flex-row">
-    <!-- Portrait Image -->
-    <img
-      class="rounded-full w-1/2 h-1/2 mb-6 md:m-6 md:rounded-xl"
-      src="scale2.jpg"
-      alt="photo of Jason Yuan"
-      width="256"
-      height="256"
-    >
+  <div class="min-h-[calc(100vh-5.7rem)] flex flex-col">
+    <div class="hero flex flex-col justify-center items-center md:flex-row grow md:grow-0">
+      <!-- Portrait Image -->
+      <img
+        class="rounded-full w-1/2 h-1/2 mb-6 md:m-6 md:rounded-xl"
+        src="scale2.jpg"
+        alt="photo of Jason Yuan"
+        width="256"
+        height="256"
+      >
 
-    <!-- Short Description -->
-    <div>
-      <h1 class="text-center text-xl lg:text-xl font-bold italic">Hey there!</h1>
-      <p class="text-center px-6">
-        I'm Jason Yuan, a passionate software engineer from the University of Waterloo.
-        With a solid academic background, diverse industry experiences, and a knack for blending technologies,
-        I thrive on turning ideas into reality. Join me in a journey of learning and building as we navigate the evolving world of technology.</p>
+      <!-- Short Description -->
+      <div class="md:flex md:items-center md:flex-col md:justify-center md:items-center">
+        <h1 class="text-center text-xl lg:text-xl font-bold italic">Hey there!</h1>
+        <p class="text-center px-6">
+          I'm Jason Yuan, a passionate software engineer from the University of Waterloo.
+          With a solid academic background, diverse industry experiences, and a knack for blending technologies,
+          I thrive on turning ideas into reality. Join me in a journey of learning and building as we navigate the evolving world of technology.</p>
+      </div>
+    </div>
+
+    <!-- Footer Container -->
+    <div class="md:grow flex flex-col justify-end">
+      <footer class="footer p-10 footer-center text-sm text-slate-800">
+        <div>
+          <p>
+            Built with
+            <a class="link" target="_blank" href="https://motherfuckingwebsite.com/">vanilla HTML</a>
+            and
+            <a class="link" target="_blank" href="https://tailwindcss.com/">Tailwind</a> +
+            <a class="link" target="_blank" href="https://daisyui.com/">DaisyUI</a> CSS
+          </p>
+        </div>
+      </footer>
     </div>
   </div>
 </div>
