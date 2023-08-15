@@ -7,10 +7,44 @@
   <link href="output.css" rel="stylesheet">
 </head>
 <body>
-<div class="p-6 max-w-3xl container flex mx-auto justify-between">
-  <div class="text-4xl font-bold text-left grow">Jason Yuan</div>
-  <a target="_blank" href="https://github.com/JasonYuan869" class="ml-8">GitHub</a>
-  <a target="_blank" href="https://www.linkedin.com/in/jasonyuan869/" class="ml-8">LinkedIn</a>
+<!-- Main Container -->
+<div class="px-6 h-full max-w-3xl mx-auto bg-white text-black">
+  <!-- Header -->
+  <div class="py-6 flex container justify-between items-center">
+    <div class="grow">
+      <a class="text-xl md:text-3xl lg:text-4xl font-bold text-left" href="/">Jason Yuan</a>
+    </div>
+
+    <!-- Links -->
+    <div class="flex justify-between grow">
+      <div class="tooltip tooltip-bottom" data-tip="Coming Soon">
+        <a href="#" class="link link-hover disabled">Portfolio</a>
+      </div>
+      <a target="_blank" href="https://github.com/JasonYuan869" class="link link-hover">GitHub</a>
+      <a target="_blank" href="https://www.linkedin.com/in/jasonyuan869/" class="link link-hover">LinkedIn</a>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="min-h-[calc(100vh-80px)] md:min-h-0 hero flex flex-col justify-center items-center md:flex-row">
+    <!-- Portrait Image -->
+    <img
+      class="rounded-full w-1/2 h-1/2 mb-6 md:m-6 md:rounded-xl"
+      src="scale2.jpg"
+      alt="photo of Jason Yuan"
+      width="256"
+      height="256"
+    >
+
+    <!-- Short Description -->
+    <div>
+      <h1 class="text-center text-xl lg:text-xl font-bold italic">Hey there!</h1>
+      <p class="text-center px-6">
+        I'm Jason Yuan, a passionate software engineer from the University of Waterloo.
+        With a solid academic background, diverse industry experiences, and a knack for blending technologies,
+        I thrive on turning ideas into reality. Join me in a journey of learning and building as we navigate the evolving world of technology.</p>
+    </div>
+  </div>
 </div>
 </body>
 </html>
