@@ -9,9 +9,9 @@
 </head>
 <body>
 <!-- Main Container -->
-<div class="px-6 h-full max-w-3xl mx-auto bg-white text-black">
+<div class="h-screen flex flex-col items-center mx-auto bg-white text-black">
   <!-- Header -->
-  <div class="py-6 flex container justify-between items-center">
+  <div class="p-6 max-w-3xl flex container justify-between items-center">
     <div class="grow">
       <a class="text-xl md:text-3xl lg:text-4xl font-bold text-left" href="/">Jason Yuan</a>
     </div>
@@ -27,7 +27,8 @@
   </div>
 
   <!-- Body -->
-  <div class="min-h-[calc(100vh-5.7rem)] flex flex-col">
+  <main class="m-auto md:mx-0 md:mt-0 px-6 flex max-w-3xl flex-col">
+    <!-- Hero -->
     <div class="hero flex flex-col justify-center items-center md:flex-row grow md:grow-0">
       <!-- Portrait Image -->
       <img
@@ -39,7 +40,7 @@
       >
 
       <!-- Short Description -->
-      <div class="md:flex md:items-center md:flex-col md:justify-center md:items-center">
+      <div class="md:flex md:items-center md:flex-col md:justify-center">
         <h1 class="text-center text-xl lg:text-xl font-bold italic">Hey there!</h1>
         <p class="text-center px-6">
           I'm Jason Yuan, a passionate software engineer from the University of Waterloo.
@@ -47,21 +48,16 @@
           I thrive on turning ideas into reality. Join me in a journey of learning and building as we navigate the evolving world of technology.</p>
       </div>
     </div>
-
-    <!-- Footer Container -->
-    <div class="md:grow flex flex-col justify-end">
-      <footer class="footer p-10 footer-center text-sm text-slate-800">
-        <div>
-          <p>
-            Built with
-            <a class="link" target="_blank" href="https://motherfuckingwebsite.com/">vanilla HTML</a>
-            and
-            <a class="link" target="_blank" href="https://tailwindcss.com/">Tailwind</a> +
-            <a class="link" target="_blank" href="https://daisyui.com/">DaisyUI</a> CSS
-          </p>
-        </div>
-      </footer>
-    </div>
+  </main>
+  <!-- Footer Container -->
+  <div class="md:grow w-full flex flex-col justify-end">
+    <footer class="footer p-6 footer-center text-sm bg-gray-300">
+      <div>
+        <div class="footer-title">Links and Contact</div>
+        <a href="../dist/resume.pdf" target="_blank" class="link link-hover">Resume</a>
+        <a href="mailto:jason.yuan869@gmail.com" class="link link-hover">Email</a>
+      </div>
+    </footer>
   </div>
 </div>
 </body>
