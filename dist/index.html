@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Jason Yuan, University of Waterloo Software Engineering">
   <title>Jason Yuan</title>
   <link href="output.css" rel="stylesheet">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -17,7 +18,7 @@
 <!-- Main Container -->
 <div class="h-screen flex flex-col items-center mx-auto bg-base-100">
   <!-- Header -->
-  <div class="p-6 max-w-3xl flex container justify-between items-center">
+  <nav class="p-6 max-w-3xl flex container justify-between items-center">
     <div class="grow">
       <a class="text-xl md:text-3xl lg:text-4xl font-bold text-left" href="/">Jason Yuan</a>
     </div>
@@ -27,12 +28,10 @@
       <div class="tooltip tooltip-bottom" data-tip="Coming Soon">
         <a href="#" class="link link-hover disabled">Portfolio</a>
       </div>
-      <div class="tooltip tooltip-bottom" data-tip="Coming Soon">
-        <a href="#" class="link link-hover disabled">Notes</a>
-      </div>
+      <a href="notes" class="link link-hover">Notes</a>
       <a target="_blank" href="https://github.com/JasonYuan869" class="link link-hover">GitHub</a>
     </div>
-  </div>
+  </nav>
 
   <!-- Body -->
   <main class="m-auto md:mx-0 md:mt-0 px-6 flex max-w-3xl flex-col">
@@ -88,8 +87,8 @@
   <!-- Footer Container -->
   <footer class="footer w-full mt-6 p-6 footer-center text-sm bg-base-200">
     <div>
-      <div class="footer-title">Links and Contact</div>
-      <a href="resume.pdf" target="_blank" class="link link-hover">Resume</a>
+      <span class="footer-title">Links and Contact</span>
+      <a href="resume.pdf" target="_blank" class="font-lg link link-hover">Resume</a>
       <a target="_blank" href="https://www.linkedin.com/in/jasonyuan869/" class="link link-hover">LinkedIn</a>
       <a href="mailto:jason.yuan869@gmail.com" class="link link-hover">Email</a>
     </div>

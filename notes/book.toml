@@ -1,0 +1,17 @@
+[book]
+authors = ["Jason Yuan"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Jason's Notebook"
+description = "Rough and ready notes on various topics."
+no-number = true
+
+[build]
+build-dir = "../dist/notes"
+
+[output.html]
+default-theme = "light"
+preferred-dark-theme = "coal"
+no-section-label = true
+mathjax-support = true
