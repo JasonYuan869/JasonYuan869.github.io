@@ -22,6 +22,9 @@ concurrency:
 
 jobs:
   build:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
     - name: Setup Node.js environment
@@ -30,7 +33,7 @@ jobs:
         # Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
         node-version: 18.x
     - run: |
-        npm ci
+        npm install
         npm run build
     - name: Setup mdBook
       uses: peaceiris/actions-mdbook@v1
@@ -38,23 +41,15 @@ jobs:
         mdbook-version: 'latest'
     - run: mdbook build
       working-directory: notes/
-    
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          # Upload entire repository
-          path: 'dist/'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
+      with:
+        # Upload entire repository
+        path: 'dist/'
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2
