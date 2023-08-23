@@ -35,8 +35,8 @@ jobs:
         # Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
         node-version: 18.x
     - run: |
-        npm install
-        npm run build
+        npm ci
+        npm run build:css
     - name: Setup mdBook
       uses: peaceiris/actions-mdbook@v1
       with:
