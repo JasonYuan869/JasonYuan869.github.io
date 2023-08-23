@@ -15,3 +15,5 @@ default-theme = "light"
 preferred-dark-theme = "coal"
 no-section-label = true
 mathjax-support = true
+site-url = "https://jasonyuan.net/notes/"
+git-repository-url = "https://github.com/JasonYuan869/JasonYuan869.github.io/"
