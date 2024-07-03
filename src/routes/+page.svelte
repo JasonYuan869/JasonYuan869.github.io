@@ -85,7 +85,7 @@
 							>BitGo</a
 						>
 					</div>
-					<div class="text-right">May 2024 - Present</div>
+					<div class="text-right">May 2024 - </div>
 					<div>Software Engineering Intern - Velocity</div>
 					<div class="text-right italic">Palo Alto, CA</div>
 				</div>
@@ -96,7 +96,7 @@
 					<div>
 						<a href="https://www.amd.com/" target="_blank" class="link-hover link font-bold">AMD</a>
 					</div>
-					<div class="text-right">Sept 2023 - Dec 2023</div>
+					<div class="text-right">Sept - Dec 2023</div>
 					<div>GPU Engineering Intern</div>
 					<div class="text-right italic">Toronto, ON</div>
 
