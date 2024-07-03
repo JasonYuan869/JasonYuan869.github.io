@@ -40,7 +40,7 @@ jobs:
 
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v4
-        id: semantic-release   # Need an `id` for output variables
+        id: semantic-release # Need an `id` for output variables
 
       - name: Build
         if: steps.semantic-release.outputs.new_release_published
