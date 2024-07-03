@@ -81,9 +81,9 @@
         <div class="font-bold">Current</div>
         <div class="grid grid-cols-2 opacity-70">
           <div>
-            <a href="https://www.bitgo.com/" target="_blank" class="link-hover link font-bold"
-              >BitGo</a
-            >
+            <a href="https://www.bitgo.com/" target="_blank" class="link-hover link font-bold">
+              BitGo
+            </a>
           </div>
           <div class="text-right">May 2024 -</div>
           <div>Software Engineering Intern - Velocity</div>
@@ -101,18 +101,18 @@
           <div class="text-right italic">Toronto, ON</div>
 
           <div>
-            <a href="https://www.curvegrid.com/" target="_blank" class="link-hover link font-bold"
-              >Curvegrid</a
-            >
+            <a href="https://www.curvegrid.com/" target="_blank" class="link-hover link font-bold">
+              Curvegrid
+            </a>
           </div>
           <div class="text-right">Jan - Apr 2023</div>
           <div>Software Engineering Intern</div>
           <div class="text-right italic">Tokyo, JP</div>
 
           <div>
-            <a href="https://dreamschools.com/" target="_blank" class="link-hover link font-bold"
-              >Dreamschools</a
-            >
+            <a href="https://dreamschools.com/" target="_blank" class="link-hover link font-bold">
+              Dreamschools
+            </a>
           </div>
           <div class="text-right">May - Aug 2022</div>
           <div>Fullstack Engineering Intern</div>
@@ -128,11 +128,13 @@
       <a
         href="https://drive.google.com/file/d/1GZfzcjA0Q1YP3x69zsbasrPXsjpdoCOt/view?usp=drive_link"
         target="_blank"
-        class="font-lg link-hover link">Resume</a
+        class="font-lg link-hover link"
       >
-      <a target="_blank" href="https://www.linkedin.com/in/jasonyuan869/" class="link-hover link"
-        >LinkedIn</a
-      >
+        Resume
+      </a>
+      <a target="_blank" href="https://www.linkedin.com/in/jasonyuan869/" class="link-hover link">
+        LinkedIn
+      </a>
       <a href="mailto:jason@jasonyuan.net" class="link-hover link">Email</a>
     </div>
   </footer>
