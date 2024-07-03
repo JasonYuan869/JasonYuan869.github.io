@@ -133,7 +133,7 @@
 			<a target="_blank" href="https://www.linkedin.com/in/jasonyuan869/" class="link-hover link"
 				>LinkedIn</a
 			>
-			<a href="mailto:jason.yuan869@gmail.com" class="link-hover link">Email</a>
+			<a href="mailto:jason@jasonyuan.net" class="link-hover link">Email</a>
 		</div>
 	</footer>
 </div>
