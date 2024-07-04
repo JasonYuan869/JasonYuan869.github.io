@@ -1,53 +1,12 @@
 <script lang="ts">
   import portrait from '$lib/assets/DSC05981.webp';
-  import MaterialSymbolsDarkMode from '~icons/material-symbols/dark-mode';
-  import MaterialSymbolsLightModeOutline from '~icons/material-symbols/light-mode-outline';
-  import { onMount } from 'svelte';
-  import { themeChange } from 'theme-change';
-
-  let currentTheme: 'dracula' | 'cupcake';
-  const toggleTheme = () => {
-    if (currentTheme === 'dracula') {
-      currentTheme = 'cupcake';
-    } else if (currentTheme === 'cupcake') {
-      currentTheme = 'dracula';
-    }
-  };
-  onMount(() => {
-    themeChange(false);
-
-    // @ts-expect-error - localStorage value should be "dracula" or "cupcake"
-    currentTheme = localStorage.getItem('theme') || 'cupcake';
-  });
 </script>
 
 <svelte:head>
   <title>Jason Yuan</title>
 </svelte:head>
 
-<div class="mx-auto flex h-screen flex-col items-center bg-base-100 [&>*]:transition-all">
-  <!-- Header -->
-  <nav class="container flex max-w-3xl items-center justify-between p-6">
-    <div class="grow">
-      <a class="text-left text-xl font-bold md:text-3xl lg:text-4xl" href="/">Jason Yuan</a>
-    </div>
-
-    <!-- Links -->
-    <div class="flex grow flex-row-reverse justify-between">
-      <a target="_blank" href="https://github.com/JasonYuan869" class="link-hover link">GitHub</a>
-    </div>
-
-    <div class="flex flex-row-reverse p-4">
-      <button data-toggle-theme="dracula,cupcake" class="text-xl" on:click={toggleTheme}>
-        {#if currentTheme === 'dracula'}
-          <MaterialSymbolsDarkMode />
-        {:else}
-          <MaterialSymbolsLightModeOutline />
-        {/if}
-      </button>
-    </div>
-  </nav>
-
+<div class="mx-auto flex flex-col items-center bg-base-100 [&>*]:transition-all">
   <!-- Body -->
   <main class="m-auto flex max-w-3xl flex-col px-6 md:mx-0 md:mt-0">
     <!-- Hero -->
@@ -121,21 +80,4 @@
       </div>
     </div>
   </main>
-  <!-- Footer Container -->
-  <footer class="footer footer-center mt-6 w-full bg-base-200 p-6 text-sm">
-    <div>
-      <span class="footer-title">Links and Contact</span>
-      <a
-        href="https://drive.google.com/file/d/1GZfzcjA0Q1YP3x69zsbasrPXsjpdoCOt/view?usp=drive_link"
-        target="_blank"
-        class="font-lg link-hover link"
-      >
-        Resume
-      </a>
-      <a target="_blank" href="https://www.linkedin.com/in/jasonyuan869/" class="link-hover link">
-        LinkedIn
-      </a>
-      <a href="mailto:jason@jasonyuan.net" class="link-hover link">Email</a>
-    </div>
-  </footer>
 </div>
