@@ -1,5 +1,5 @@
 <script lang="ts">
-  import portrait from '$lib/assets/scale2.jpg';
+  import portrait from '$lib/assets/DSC05981.webp';
   import MaterialSymbolsDarkMode from '~icons/material-symbols/dark-mode';
   import MaterialSymbolsLightModeOutline from '~icons/material-symbols/light-mode-outline';
   import { onMount } from 'svelte';
