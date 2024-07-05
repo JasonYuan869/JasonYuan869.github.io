@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Poppins', ...defaultTheme.fontFamily.sans]
+        sans: ['Poppins', ...defaultTheme.fontFamily.sans],
+        logo: ['IBM Plex Serif', ...defaultTheme.fontFamily.serif]
       }
     }
   },
