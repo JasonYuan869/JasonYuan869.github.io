@@ -13,7 +13,9 @@
 
     {#each data.postsByMonth[month] as post}
       <div class="mb-6">
-        <a href={post.path} class="text-xl font-bold md:text-2xl">{post.metadata.title}</a>
+        <a href={post.path} class="link-hover text-xl font-bold md:text-2xl"
+          >{post.metadata.title}</a
+        >
         <p class="text-base-content/50">
           {new Date(post.metadata.date).toLocaleDateString('en-US', {
             year: 'numeric',
