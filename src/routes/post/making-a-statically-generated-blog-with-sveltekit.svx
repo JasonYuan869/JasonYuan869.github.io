@@ -145,7 +145,7 @@ Since we added the mdsvex preprocessor, we can now create Markdown files with th
 automatically parsed by SvelteKit. Each Markdown file will represent a blog post and will be placed in the `src/routes/post` directory.
 
 ### Making a post
-Let's create a sample post `your-blog-post-slug.sxv` post in the `src/routes/post` directory. The file should have the following structure:
+Let's create a sample post `your-blog-post-slug.svx` post in the `src/routes/post` directory. The file should have the following structure:
 ```md
 ---
 title: Your blog post title

@@ -31,7 +31,12 @@
   <div class="flex grow justify-end gap-4">
     <a href="/posts" class="link-hover link">Posts</a>
     <a target="_blank" href="https://github.com/JasonYuan869" class="link-hover link">GitHub</a>
-    <button data-toggle-theme="dracula,cupcake" class="text-xl" on:click={toggleTheme}>
+    <button
+      data-toggle-theme="dracula,cupcake"
+      class="text-xl"
+      on:click={toggleTheme}
+      title="toggle theme"
+    >
       {#if $currentTheme === 'dracula'}
         <MaterialSymbolsDarkMode />
       {:else}

@@ -13,7 +13,7 @@
 </svelte:head>
 
 <div class="my-4">
-  <p class="text-3xl font-bold leading-relaxed tracking-wide md:text-4xl">{data.metadata.title}</p>
+  <p class="text-3xl font-bold leading-relaxed md:text-4xl">{data.metadata.title}</p>
   <p class="text-base-content/50">Published on {dateText}</p>
 </div>
 
