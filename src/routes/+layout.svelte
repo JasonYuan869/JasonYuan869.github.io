@@ -6,10 +6,8 @@
 
 <div class="w-full bg-base-100 [&>*]:transition-all">
   <Nav />
-  <div class="mx-auto flex flex-col items-center">
+  <div class="container mx-auto min-h-[70vh] max-w-3xl p-6">
     <slot />
   </div>
-
   <Footer />
 </div>
-

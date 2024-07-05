@@ -1,0 +1,311 @@
+---
+title: Making a statically-generated blog with SvelteKit
+description: Using SvelteKit to create a statically-generated blog, which can be hosted on any static file server.
+slug: making-a-statically-generated-blog-with-sveltekit
+date: '2024-07-04'
+---
+
+Welcome to my blog! In this post, I'll be walking through the process of creating a static blog with SvelteKit and Markdown.
+This is exactly the tech stack used for the blog you're reading now, so you can see the final result in action.
+All source code for my personal site is available on [GitHub](https://github.com/JasonYuan869/JasonYuan869.github.io).
+
+[SvelteKit](https://kit.svelte.dev/) is a modern web framework built on top of Svelte,
+a popular JavaScript framework known for its simplicity and efficiency. SvelteKit features a
+file-based routing system similar to Next.js, and supports server-side rendering (SSR) and
+static site generation (SSG) out of the box.
+
+In our case, we'll be using SSG to generate a static blog from Markdown files. This approach
+offers several benefits, including improved performance, better SEO, and easier deployment.
+My personal site is hosted on GitHub pages which offers excellent support for static sites.
+
+## Setting up the project
+
+We'll start by scaffolding a new SvelteKit project using the official template. You can see the full instructions in the [SvelteKit documentation](https://kit.svelte.dev/docs/creating-a-project).
+
+```bash
+npm create svelte@latest my-blog
+cd my-blog
+npm install
+```
+
+When prompted to choose a template, select the 'skeleton' template which includes a basic project structure.
+
+### Installing Tailwind CSS
+
+Next, we'll install Tailwind CSS and its dependencies. Tailwind CSS is a utility-first CSS framework that allows you to build custom designs without writing any CSS.
+We need Tailwind's [typography plugin](https://github.com/tailwindlabs/tailwindcss-typography) to automatically style our Markdown content.
+
+Full instructions can be found in the [Tailwind CSS documentation](https://tailwindcss.com/docs/guides/sveltekit).
+
+```bash
+npm install -D tailwindcss postcss autoprefixer @tailwindcss/typography
+npx tailwindcss init -p
+```
+
+Next, modify the `tailwind.config.js` file in the root of your project to include the typography plugin:
+
+```js
+import typography from '@tailwindcss/typography';
+
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./src/**/*.{html,js,svelte,ts}'],
+  theme: {
+    extend: {}
+  },
+  plugins: [typography]
+};
+```
+
+Add the Tailwind CSS classes to your `src/app.css` file:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+Finally, import the CSS file in your root `src/routes/+layout.svelte` file:
+
+```svelte
+<script>
+  import '../app.css';
+</script>
+
+<slot />
+```
+
+This enables Tailwind CSS for your entire SvelteKit project.
+
+### Installing mdsvex
+We will use the [mdsvex](https://mdsvex.pngwn.io/) package to parse Markdown files in our project.
+Mdsvex is a preprocessor for SvelteKit that allows you to write Markdown content in your Svelte components.
+
+Follow the full installation instructions in the [mdsvex documentation](https://mdsvex.pngwn.io/docs).
+
+```bash
+npm install -D mdsvex
+```
+
+Update your `svelte.config.js` file to include the mdsvex preprocessor. While we're here, let's also add the `@sveltejs/adapter-static` adapter for static site generation.
+
+```bash
+npm install -D @sveltejs/adapter-static
+```
+
+```js
+// svelte.config.js
+import adapter from '@sveltejs/adapter-static';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import { mdsvex } from 'mdsvex';
+
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+  // Our Markdown files will have the .svx extension
+  // Consult the mdsvex documentation if you want to customize this
+  preprocess: [vitePreprocess(), mdsvex()],
+  extensions: ['.svelte', '.svx'],
+
+  kit: {
+    adapter: adapter(
+      {
+        fallback: null // We want everything to be static! No SPA fallback.
+      }
+    )
+  }
+};
+
+export default config;
+```
+
+And with that, we should be done setting up our project!
+
+## Creating the blog
+Our blog will consist of a list of posts on the homepage, and individual post pages for each blog post. Let's start
+with the directory structure for our blog:
+
+```
+└── src
+    ├── app.css
+    ├── app.d.ts
+    ├── app.html
+    └── routes
+        ├── +layout.svelte
+        ├── +page.svelte
+        ├── +page.ts
+        └── post
+            ├── [slug]
+            │   ├── +layout.svelte
+            │   ├── +page.svelte
+            │   └── +page.ts
+            └── <post-slug>.svx
+```
+
+Since we added the mdsvex preprocessor, we can now create Markdown files with the `.svx` extension and have them
+automatically parsed by SvelteKit. Each Markdown file will represent a blog post and will be placed in the `src/routes/post` directory.
+
+### Making a post
+Let's create a sample post `your-blog-post-slug.sxv` post in the `src/routes/post` directory. The file should have the following structure:
+```md
+---
+title: Your blog post title
+description: A short description of your blog post
+slug: your-blog-post-slug
+date: '2024-07-04'
+---
+
+# {title}
+This is a sample blog post.
+```
+
+The YAML formatted [frontmatter](https://jekyllrb.com/docs/front-matter/) at the top of the file contains metadata
+about the post, such as the title, description, slug, and date.
+
+### Importing Markdown content
+Note that SvelteKit will _not_ generate pages for any directory without a `+page.svelte`.
+This means that simply having a `.svx` file in the `post` directory will not generate a page for that post!
+
+We need to import the specific `.svx` file according to the slug passed in the path parameter. We can do
+this with a dynamic import in the `routes/post/[slug]/+page.ts` `load` function. This function
+is called whenever the page is requested, and we can access the slug from the `params` object.
+
+```ts
+// src/routes/post/[slug]/+page.ts
+export async function load({ params }) {
+  const post = await import(`../${params.slug}.svx`);
+  const metadata = post.metadata;
+
+  const content = post.default;
+
+  return {
+    content,
+    metadata
+  };
+}
+```
+
+The `metadata` object contains the frontmatter data from the Markdown file, and the `default` export
+contains the compiled Svelte component generated from the Markdown content. 
+
+The returned object will be passed to the `+page.svelte` component as the `data` props.
+Let's quickly create the `routes/post/[slug]/+page.svelte` component with some basic styles:
+
+```svelte
+<!-- src/routes/post/[slug]/+page.svelte -->
+<script>
+  export let data;
+  // You can do things with data.metadata here
+</script>
+
+<svelte:component this={data.content} />
+```
+
+Let's give it a run by starting the dev server with `npm run dev` and navigating to `/post/your-blog-post-slug`.
+![Iteration 1](/making-a-statically-generated-blog-with-sveltekit/blog-post-iteration1.png)
+
+Hmm... I see the contents but it's not styled at all. Let's use the `prose` class from Tailwind's
+[typography](https://tailwindcss.com/blog/tailwindcss-typography) plugin to style our Markdown content.
+This plugin adds default styles for headings, paragraphs, lists, and more to make standard HTML look great out of the box.
+
+```svelte
+<!-- src/routes/post/[slug]/+page.svelte -->
+<script>
+  export let data;
+  // You can do things with data.metadata here
+</script>
+
+<article class="prose">
+    <svelte:component this={data.content} />
+</article>
+```
+
+![Iteration 2](/making-a-statically-generated-blog-with-sveltekit/blog-post-iteration2.png)
+
+Much better!
+
+### Listing all posts
+Now that we have individual post pages, let's create a homepage that lists all the posts. Let's first make
+a helper function to fetch all the `.svx` files from the `src/routes/post` directory.
+
+```ts
+<!-- src/lib/posts.ts -->
+export async function getPosts() {
+  const posts = import.meta.glob('/src/routes/post/*.svx');
+
+  return await Promise.all(
+    Object.entries(posts).map(async ([path, resolver]) => {
+      const slug = path.split('/').pop()!.split('.')[0];
+      const post = (await resolver());
+      return {
+        metadata: post.metadata,
+        path: `/post/${slug}`
+      };
+    })
+  );
+}
+```
+
+The `getPosts` function uses Vite's [`import.meta.glob`](https://vitejs.dev/guide/features#glob-import) to retrieve 
+all the `.svx` files in the `src/routes/post` directory. `posts` is an object where the keys are the file paths
+and the value is a function that resolves to the module. We then map over the entries, extract the slug from the path,
+and return an object with the post metadata and path to the post page.
+
+Next, we'll call this function in the `load` function to fetch all the posts and pass them to the `+page.svelte` component.
+```ts
+// src/routes/+page.ts
+import { getPosts } from '$lib/posts';
+
+export async function load() {
+  const posts = await getPosts();
+  return {
+    posts
+  };
+}
+```
+
+Finally, we'll update the `+page.svelte` component to display the list of posts.
+```svelte
+<!-- src/routes/+page.svelte -->
+<script>
+    export let data;
+    // Do things with data.posts such as sorting, filtering, etc.
+</script>
+
+<div>
+    {#each data.posts as post}
+        <a href={post.path} class="text-xl font-bold">{post.metadata.title}</a>
+        <p class="text-gray-600 text-sm">Published {post.metadata.date}</p>
+        <p>{post.metadata.description}</p>
+    {/each}
+</div>
+```
+
+![Post List](/making-a-statically-generated-blog-with-sveltekit/blog-post-list.png)
+
+Nice! We now have a list of our posts on our homepage. Obviously, we're lacking some styling but that can be customized
+later with Tailwind CSS.
+
+## Building the static site
+Let's try building our site statically. In `routes/+layout.ts`, let's add a `prerender` parameter
+to tell SvelteKit to generate static HTML files for our routes.
+
+```ts
+// src/routes/+layout.ts
+export const prerender = true;
+```
+
+What's great about the SvelteKit static adapter is that it will generate static HTML files by traversing links
+throughout the site. Thus, even though we have a dynamic `[slug]` route, SvelteKit can still generate static HTML
+since all the valid slugs are known at build time (and linked from the homepage).
+
+Now, let's try building our site with `npm run build`. If everything goes well, you should see a `build` directory.
+
+You can preview the site by running `npm run preview`.
+
+To deploy to GitHub Pages, we'll need to create a new repository and push our code to it. You can follow the
+official [GitHub Pages documentation](https://docs.github.com/en/pages/getting-started-with-github-pages) or the 
+SvelteKit [guide for GitHub pages](https://kit.svelte.dev/docs/adapter-static#github-pages) for more information.
+
+
+That's it! You've successfully created a statically-generated blog with SvelteKit. The full code for this blog post
+is available on [GitHub](https://github.com/JasonYuan869/sample-blog).
