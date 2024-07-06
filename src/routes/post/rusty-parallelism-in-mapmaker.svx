@@ -1,0 +1,119 @@
+---
+title: Rusty parallelization of Floyd-Steinberg dithering in mapmaker
+description: A look at how to parallelize the Floyd-Steinberg dithering algorithm in Rust, applied by importing raw images into Minecraft via maps.
+slug: rusty-parallelism-in-mapmaker
+date: '2024-07-05'
+---
+
+A long while ago, I made a CLI program that turns image files into a Minecraft-compatible `.dat` file that could be loaded into the game. You can see
+a demo in the table below (open the images in a new tab to see them in full resolution).
+
+| 854x480 Source                                                                                                                   | Minecraft Maps                                                                                                                         | Zoomed                                                                                                                                        |
+|----------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| <img alt="Original" src="https://user-images.githubusercontent.com/18143408/120138357-52a0cf80-c1a4-11eb-85df-f51ad46ab42e.jpg"> | <img alt="Minecraft Maps" src="https://user-images.githubusercontent.com/18143408/120136896-33ed0980-c1a1-11eb-8eb8-7eb7d8fa797d.png"> | <img alt="Minecraft Maps Zoomed" src="https://user-images.githubusercontent.com/18143408/120136915-3e0f0800-c1a1-11eb-8086-1ebd77461b55.png"> |
+
+The architecture of the program is mostly simple:
+1. Read the image file from disk.
+2. Resize the image into the next largest multiple of 128x128 (Minecraft maps are 128x128 pixels).
+3. Use a [kd-tree](https://en.wikipedia.org/wiki/K-d_tree) to find the closest color in the [Minecraft palette](https://minecraft.fandom.com/wiki/Map_item_format#Full_color_tables) for each pixel.
+4. While converting pixels, dither the image using the [Floyd-Steinberg dithering algorithm](https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering) to reduce color banding.
+5. Write each 128x128 subsection of the resultant image into a `.dat` file in Minecraft [NBT format](https://minecraft.fandom.com/wiki/Map_item_format#NBT_structure).
+6. Load the generated `.dat` file into Minecraft along with some wrapper commands to place the maps in the correct location.
+
+The source code for the program can be found [here](https://github.com/JasonYuan869/mapmaker). It features a couple of
+additional features, namely the ability to _animate_ sets of images at 20 frames per second (which is the maximum speed that 
+Minecraft can execute commands).
+
+I actually wrote the program first in Python as a quick PoC, but it was really slow.
+Rewriting it in Rust made it much faster, but I was still limited by single-threaded performance.
+In particular, the Floyd-Steinberg dithering algorithm is (in theory) a very parallelizable algorithm.
+This post will explore strategies to parallelize the Floyd-Steinberg dithering algorithm in Rust.
+
+## Floyd-Steinberg Dithering
+Dithering is a technique that creates the illusion of color depth in images with a limited color palette.
+Consider a naive approach where we simply round each pixel to the nearest color in the palette. This would result in
+a lot of banding in the image, as seen below (images from Wikipedia).
+
+| Original picture                                                                                  | No dithering                                                                                                      |
+|---------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| ![Original](https://upload.wikimedia.org/wikipedia/commons/e/e3/Dithering_example_undithered.png) | ![No dithering](https://upload.wikimedia.org/wikipedia/commons/b/be/Dithering_example_undithered_web_palette.png) |
+
+The Floyd-Steinberg dithering algorithm is a simple algorithm that diffuses the error of each pixel to its neighbours. In other words,
+if a pixel is rounded to a color in the palette, the error is distributed to the neighbouring pixels. This results in a much smoother
+image, as seen below.
+
+![Floyd-Steinberg dithering](https://upload.wikimedia.org/wikipedia/commons/6/6d/Dithering_example_dithered_web_palette.png)
+
+The algorithm will scan the image from left to right, top to bottom to map the pixel value. The exact error distribution
+follows the matrix below, where the $*$ represents the current pixel and the numbers represent the
+portion of the error that is distributed to that neighbour.
+
+$$
+\begin{bmatrix}
+& & * & \frac{\displaystyle 7}{\displaystyle 16} & \ldots \\
+\ldots & \frac{\displaystyle 3}{\displaystyle 16} & \frac{\displaystyle 5}{\displaystyle 16} & \frac{\displaystyle 1}{\displaystyle 16} & \ldots \\
+\end{bmatrix}
+$$
+
+This also means that pixels that were already processed will not be affected and that if a number of pixels were
+rounded down, the next pixel will be more likely to be rounded up resulting in a more balanced distribution.
+
+## Single-threaded implementation
+Here's a simplified implementation of the Floyd-Steinberg dithering algorithm, ignoring all the Minecraft-specific aspects used in mapmaker.
+```rust
+pub const DITHERING_MATRIX: [([i32; 2], f32); 4] = [
+    ([1, 0], 0.4375),
+    ([-1, 1], 0.1875),
+    ([0, 1], 0.3125),
+    ([1, 1], 0.0625),
+];
+
+fn convert(mut image: RgbImage) -> RgbImage {
+    let (width, height) = image.dimensions();
+
+    for x in 0..width {
+        for y in 0..height {
+            let color = image.get_pixel(x, y);
+
+            // Difference is the vector difference between the target color
+            // and the closest color in the palette expressed in RGB space
+            let (color_idx, difference) = get_color_tree().find_closest(color);
+
+            *image.get_pixel_mut(x, y) = color_idx;
+
+            // Normalize the error to the range [0, 1]
+            let errors = difference.map(|err| err as f32 / 256.0);
+
+            // Propagate errors to each of the four pixels according to Floyd-Steinberg
+            for ([vx, vy], factor) in DITHERING_MATRIX {
+                let x = x as i32 + *vx;
+                let y = y as i32 + *vy;
+
+                // Check bounds within image (y will never be negative)
+                if x < 0 || x as u32 >= width || y as u32 >= height {
+                    continue;
+                }
+
+                let original_color = image.get_pixel_mut(x as u32, y as u32);
+                distribute_rgb_channels(original_color, errors, factor);
+            }
+        }
+    }
+    image
+}
+```
+
+The `convert` function takes an image and for each pixel, finds the closest color in the palette using the kd-tree.
+Then, it propagates the error to the neighbouring pixels according to the Floyd-Steinberg matrix. The `distribute_rgb_channels`
+function is a simple function that adds the error vector to each of the RGB channels of the pixel.
+
+## Parallelizing Floyd-Steinberg Dithering
+Since the algorithm scans the image from left to right, top to bottom, it's possible to parallelize the algorithm by
+splitting the image into horizontal strips and processing each strip in parallel. One obstacle is that the error
+diffusion of one strip is partially dependent on the error diffusion of the previous strip. Specifically,
+the pixel located at $(x, y)$ is dependent on the pixels $(x-1, y-1)$, $(x, y-1)$, and $(x+1, y-1)$
+(using the convention that $(0,0)$ is the top left corner). 
+So, it's important to synchronize each thread to ensure that we don't process a pixel before its dependencies are processed.
+
+Thankfully, this doesn't mean that we need to process a whole row before moving on to the next. We start processing row $y$
+immediately after we process pixel $(1, y-1)$. 

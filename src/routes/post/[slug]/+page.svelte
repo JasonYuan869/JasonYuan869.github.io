@@ -17,7 +17,7 @@
   <p class="text-base-content/50">Published on {dateText}</p>
 </div>
 
-<article class="prose">
+<article class="prose prose-td:align-middle prose-img:mx-auto">
   <svelte:component this={data.content} />
 </article>
 

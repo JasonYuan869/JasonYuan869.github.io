@@ -1,5 +1,5 @@
 <script lang="ts">
-  import('$lib/assets/prism-darcula.css');
+  import '$lib/assets/prism-darcula.css';
 </script>
 
 <svelte:head>
