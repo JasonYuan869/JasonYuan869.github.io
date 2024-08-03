@@ -75,7 +75,7 @@
 </script>
 
 <main class="flex flex-col items-center justify-center">
-  <p>Order the following angles from smallest to largest</p>
+  <p class="text-center">Order the following angles from smallest to largest</p>
   <div class="mb-4 grid grid-cols-2 grid-rows-2 md:grid-cols-4 md:grid-rows-1">
     {#each Array.from({ length: 4 }, (_, i) => i) as i}
       <div
