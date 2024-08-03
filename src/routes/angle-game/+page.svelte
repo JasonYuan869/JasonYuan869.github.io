@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import MaterialSymbolsRefresh from '~icons/material-symbols/refresh';
-  import { type AngleProps, draw } from './game';
+  import { type AngleProps, draw, shuffleArray } from './game';
 
   let reveal = false;
 
@@ -10,25 +10,27 @@
 
   let baseAngle = Math.random() * 90 + 45;
 
-  let angleSet: Set<number>;
   let angles: Array<AngleProps> = [];
 
   const resetAngles = () => {
     reveal = false;
-    baseAngle = Math.random() * 90 + 45;
+    baseAngle = Math.floor(Math.random() * 90 + 45);
     const baseRotation = Math.random() * 2 * Math.PI;
-    angleSet = new Set<number>();
+    const angleValues: Array<number> = [];
 
-    while (angleSet.size < 4) {
-      const angle = Math.floor(Math.random() * 15 + 5);
-      angleSet.add(angle);
+    for (let i = 0; i < 4; i++) {
+      const angleDifference = Math.floor(Math.random() * 5 + 3);
+      const lastAngle = angleValues[angleValues.length - 1] ?? baseAngle;
+      angleValues.push(lastAngle + angleDifference);
     }
 
-    angles = Array.from(angleSet).map((angle) => {
+    shuffleArray(angleValues);
+
+    angles = angleValues.map((angle) => {
       const randomScale = Math.random() * 0.5 + 0.5;
       const randomRotation = baseRotation + (Math.random() * 0.8 + 0.2) * Math.PI;
 
-      return { angle: Math.floor(baseAngle + angle), randomScale, randomRotation };
+      return { angle, randomScale, randomRotation };
     });
   };
 
@@ -48,12 +50,6 @@
       draw(ctx, centerX, centerY, canvas.height * 0.4, angles[i]);
     }
   };
-
-  $: correctOrder = angles
-    .map((angle, index) => ({ angle: angle.angle, index: index + 1 }))
-    .sort((a, b) => a.angle - b.angle)
-    .map(({ index }) => `${index}`)
-    .join(' < ');
 
   onMount(() => {
     resetAngles();

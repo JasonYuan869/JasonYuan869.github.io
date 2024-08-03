@@ -34,7 +34,7 @@ export function draw(
   // Randomize the scale and rotation
   ctx.rotate(randomRotation);
   ctx.beginPath();
-  ctx.moveTo(-length * randomScale, 0);
+  ctx.moveTo(length * randomScale, 0);
   ctx.lineTo(0, 0);
 
   const targetX = length * Math.cos(angleInRadians) * randomScale;
@@ -42,4 +42,17 @@ export function draw(
   ctx.lineTo(targetX, targetY);
   ctx.stroke();
   ctx.restore();
+}
+
+/**
+ * Shuffle the given array
+ * @param array
+ */
+export function shuffleArray(array: Array<any>) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    let temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
 }
