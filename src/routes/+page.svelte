@@ -43,7 +43,7 @@
             BitGo
           </a>
         </div>
-        <div class="text-right">May 2024 -</div>
+        <div class="text-right">May - Aug 2024</div>
         <div>Software Engineering Intern - Velocity</div>
         <div class="text-right italic">Palo Alto, CA</div>
       </div>
