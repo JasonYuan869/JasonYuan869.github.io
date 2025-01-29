@@ -12,6 +12,8 @@
     } else if ($currentTheme === 'cupcake') {
       $currentTheme = 'dracula';
     }
+
+    console.log("current theme: ", $currentTheme);
   };
   onMount(() => {
     themeChange(false);
