@@ -7,6 +7,11 @@ layer(base);
   themes: cupcake --default, dracula --prefersdark;
 }
 
+@theme {
+  --font-sans: "Poppins", sans-serif;
+  --font-logo: "IBM Plex Serif", serif;
+}
+
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still
