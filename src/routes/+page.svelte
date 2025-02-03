@@ -33,16 +33,16 @@
   </div>
 
   <!-- Experience -->
-  <div class="card w-full bg-base-200 p-6">
+  <div class="card bg-base-200 w-full p-6">
     <div class="text-lg font-bold">Work Experiences</div>
-    <div class="mt-3">
+    <div class="mt-3 flex flex-col space-y-4">
       <div class="grid grid-cols-2 opacity-70">
         <div>
           <a href="https://www.bitgo.com/" target="_blank" class="link-hover link font-bold">
             BitGo
           </a>
         </div>
-        <div class="text-right italic">Palo Alto, CA</div>
+        <div class="text-right font-bold">Palo Alto, CA</div>
         <div>Software Engineering Intern - Onboarding</div>
         <div class="text-right">Feb 2025 - Present</div>
         <div>Software Engineering Intern - Velocity</div>
@@ -52,23 +52,27 @@
         <div>
           <a href="https://www.amd.com/" target="_blank" class="link-hover link font-bold">AMD</a>
         </div>
-        <div class="text-right italic">Toronto, ON</div>
+        <div class="text-right font-bold">Markham, ON</div>
         <div>GPU Engineering Intern</div>
         <div class="text-right">Sept - Dec 2023</div>
+      </div>
+      <div class="grid grid-cols-2 opacity-70">
         <div>
           <a href="https://www.curvegrid.com/" target="_blank" class="link-hover link font-bold">
             Curvegrid
           </a>
         </div>
-        <div class="text-right italic">Tokyo, JP</div>
+        <div class="text-right font-bold">Tokyo, JP</div>
         <div>Software Engineering Intern</div>
         <div class="text-right">Jan - Apr 2023</div>
+      </div>
+      <div class="grid grid-cols-2 opacity-70">
         <div>
           <a href="https://dreamschools.com/" target="_blank" class="link-hover link font-bold">
             Dreamschools
           </a>
         </div>
-        <div class="text-right italic">Toronto, ON</div>
+        <div class="text-right font-bold">Toronto, ON</div>
         <div>Fullstack Engineering Intern</div>
         <div class="text-right">May - Aug 2022</div>
       </div>
