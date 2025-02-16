@@ -2,15 +2,20 @@
   import { onMount } from 'svelte';
   import MaterialSymbolsRefresh from '~icons/material-symbols/refresh';
   import { type AngleProps, draw, shuffleArray } from './game';
+  import { flip } from 'svelte/animate';
+  import { dndzone, overrideItemIdKeyNameBeforeInitialisingDndZones } from 'svelte-dnd-action';
+  import clsx from 'clsx';
+  overrideItemIdKeyNameBeforeInitialisingDndZones('angle');
 
-  let reveal = false;
+  let reveal = $state(false);
 
-  let containerRefs: Array<HTMLDivElement | null> = [null, null, null, null];
-  let canvasRefs: Array<HTMLCanvasElement | null> = [null, null, null, null];
+  let containerRefs: Array<HTMLDivElement | null> = $state([null, null, null, null]);
+  let canvasRefs: Array<HTMLCanvasElement | null> = $state([null, null, null, null]);
 
   let baseAngle = Math.random() * 90 + 45;
 
-  let angles: Array<AngleProps> = [];
+  let angles: Array<AngleProps> = $state([]);
+  let sortedAngles: Array<AngleProps> = $derived(angles.slice().sort((a, b) => a.angle - b.angle));
 
   const resetAngles = () => {
     reveal = false;
@@ -50,9 +55,7 @@
       draw(ctx, centerX, centerY, canvas.height * 0.4, angles[i]);
     }
   };
-
-  onMount(() => {
-    resetAngles();
+  $effect(() => {
     const onResize = () => {
       for (let i = 0; i < canvasRefs.length; i++) {
         const canvas = canvasRefs[i];
@@ -72,25 +75,48 @@
 
     return () => window.removeEventListener('resize', onResize);
   });
+
+  onMount(() => {
+    resetAngles();
+  });
+
+  function handleSort(e) {
+    angles = e.detail.items;
+  }
 </script>
 
+<svelte:head>
+  <title>Angle Game</title>
+</svelte:head>
+
 <main class="flex flex-col items-center justify-center">
-  <p class="text-center">Order the following angles from smallest to largest</p>
-  <div class="mb-4 grid grid-cols-2 grid-rows-2 md:grid-cols-4 md:grid-rows-1">
-    {#each Array.from({ length: 4 }, (_, i) => i) as i}
+  <p class="text-center">Drag to order the following angles from smallest to largest</p>
+  <div
+    class="mb-4 flex flex-row"
+    use:dndzone={{ items: angles, flipDurationMs: 200, dropTargetStyle: { outline: 'none' } }}
+    onconsider={handleSort}
+    onfinalize={handleSort}
+  >
+    {#each angles as angle, i (angle.angle)}
       <div
+        animate:flip={{ duration: 200 }}
         bind:this={containerRefs[i]}
-        class="relative m-2 h-24 w-24 border border-gray-300 md:h-36 md:w-36"
+        class={clsx('relative m-2 h-24 w-24 border md:h-36 md:w-36', {
+          'border-gray-300 ': !reveal,
+          'border-green-300': reveal && angle.angle === sortedAngles[i].angle,
+          'border-red-300': reveal && angle.angle !== sortedAngles[i].angle
+        })}
       >
-        {#if angles?.[i]?.angle}
-          <div class="absolute left-2 top-2 text-gray-900">{i + 1}</div>
+        {#if angle.angle}
           {#if reveal}
-            <div class="absolute bottom-2 left-2 text-gray-900">{angles?.[i]?.angle}°</div>
+            <div class="absolute bottom-2 left-2 text-gray-900">{angle.angle}°</div>
           {/if}
         {:else}
-          <div class="skeleton absolute h-full w-full rounded-none" />
+          <div class="skeleton absolute h-full w-full rounded-none"></div>
         {/if}
-        <canvas bind:this={canvasRefs[i]} />
+        <div>
+          <canvas bind:this={canvasRefs[i]}></canvas>
+        </div>
       </div>
     {/each}
   </div>
@@ -100,7 +126,7 @@
   </label>
   <button
     class="btn btn-accent"
-    on:click={() => {
+    onclick={() => {
       resetAngles();
       drawAngles();
     }}
