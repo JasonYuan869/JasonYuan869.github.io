@@ -13,7 +13,7 @@
       $currentTheme = 'dracula';
     }
 
-    console.log("current theme: ", $currentTheme);
+    console.log('current theme: ', $currentTheme);
   };
   onMount(() => {
     themeChange(false);
@@ -33,17 +33,16 @@
   <div class="flex grow justify-end gap-4">
     <a href="/posts" class="link-hover link">Posts</a>
     <a target="_blank" href="https://github.com/JasonYuan869" class="link-hover link">GitHub</a>
-    <button
-      data-toggle-theme="dracula,cupcake"
-      class="text-xl"
-      on:click={toggleTheme}
-      title="toggle theme"
-    >
-      {#if $currentTheme === 'dracula'}
-        <MaterialSymbolsDarkMode />
-      {:else}
-        <MaterialSymbolsLightModeOutline />
-      {/if}
-    </button>
+    <label class="swap swap-rotate" data-toggle-theme="dracula,cupcake">
+      <input
+        type="checkbox"
+        on:change={toggleTheme}
+        data-toggle-theme="cupcake,dracula"
+        value="dracula"
+        class="theme-controller text-xl"
+      />
+      <MaterialSymbolsDarkMode class="swap-on" />
+      <MaterialSymbolsLightModeOutline class="swap-off" />
+    </label>
   </div>
 </nav>
