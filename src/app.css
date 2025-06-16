@@ -4,12 +4,14 @@ layer(base);
 layer(base);
 @import 'tailwindcss';
 @plugin "daisyui" {
-  themes: cupcake --default, dracula --prefersdark;
+  themes:
+    cupcake --default,
+    dracula --prefersdark;
 }
 
 @theme {
-  --font-sans: "Poppins", sans-serif;
-  --font-logo: "IBM Plex Serif", serif;
+  --font-sans: 'Poppins', sans-serif;
+  --font-logo: 'IBM Plex Serif', serif;
 }
 
 /*

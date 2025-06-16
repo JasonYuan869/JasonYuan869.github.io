@@ -38,6 +38,14 @@
     <div class="mt-3 flex flex-col space-y-4">
       <div class="grid grid-cols-2 opacity-70">
         <div>
+          <a href="https://ramp.com/" target="_blank" class="link-hover link font-bold"> Ramp </a>
+        </div>
+        <div class="text-right font-bold">New York, NY</div>
+        <div>Software Engineering Intern - Growth Platform</div>
+        <div class="text-right">May 2025 - Present</div>
+      </div>
+      <div class="grid grid-cols-2 opacity-70">
+        <div>
           <a href="https://www.bitgo.com/" target="_blank" class="link-hover link font-bold">
             BitGo
           </a>
