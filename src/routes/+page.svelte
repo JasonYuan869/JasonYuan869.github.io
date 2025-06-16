@@ -22,12 +22,12 @@
     <div class="md:flex md:flex-col md:items-center md:justify-center">
       <h1 class="text-center text-xl font-bold italic lg:text-xl">Hey there!</h1>
       <p class="px-6 text-center">
-        I'm Jason Yuan, a 3rd-year Software Engineering student from the University of Waterloo.
+        I'm Jason Yuan, a 4th-year Software Engineering student from the University of Waterloo.
         With a solid academic background, diverse industry experiences, and a knack for blending
         technologies, I thrive on turning ideas into reality.
         <br />
         <br />
-        Currently working in DevOps, cloud engineering, and CI automation at BitGo.
+        Currently working on data analytics and growth enablement technologies at Ramp.
       </p>
     </div>
   </div>
@@ -41,7 +41,7 @@
           <a href="https://ramp.com/" target="_blank" class="link-hover link font-bold"> Ramp </a>
         </div>
         <div class="text-right font-bold">New York, NY</div>
-        <div>Software Engineering Intern - Growth Platform</div>
+        <div>Software Engineering Intern</div>
         <div class="text-right">May 2025 - Present</div>
       </div>
       <div class="grid grid-cols-2 opacity-70">
@@ -52,7 +52,7 @@
         </div>
         <div class="text-right font-bold">Palo Alto, CA</div>
         <div>Software Engineering Intern - Onboarding</div>
-        <div class="text-right">Feb 2025 - Present</div>
+        <div class="text-right">Feb - Apr 2025</div>
         <div>Software Engineering Intern - Velocity</div>
         <div class="text-right">May - Aug 2024</div>
       </div>
