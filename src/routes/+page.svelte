@@ -42,7 +42,7 @@
         </div>
         <div class="text-right font-bold">New York, NY</div>
         <div>Software Engineering Intern</div>
-        <div class="text-right">May 2025 - Present</div>
+        <div class="text-right">May - Aug 2025</div>
       </div>
       <div class="grid grid-cols-2 opacity-70">
         <div>
