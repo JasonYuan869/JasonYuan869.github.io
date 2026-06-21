@@ -3,7 +3,7 @@
   <div>
     <span class="footer-title">Links and Contact</span>
     <a
-      href="https://drive.google.com/file/d/1GZfzcjA0Q1YP3x69zsbasrPXsjpdoCOt/view?usp=drive_link"
+      href="https://drive.google.com/file/d/1Rkh1YbQSLDBzE1Sl_UlP96qsd3goOyq7/view?usp=sharing"
       target="_blank"
       class="font-lg link-hover link"
     >
