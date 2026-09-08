@@ -22,12 +22,12 @@
     <div class="md:flex md:flex-col md:items-center md:justify-center">
       <h1 class="text-center text-xl font-bold italic lg:text-xl">Hey there!</h1>
       <p class="px-6 text-center">
-        I'm Jason Yuan, a 4th-year Software Engineering student from the University of Waterloo.
-        With a solid academic background, diverse industry experiences, and a knack for blending
+        I'm Jason Yuan, a Software Engineering graduate from the University of Waterloo. With a
+        solid academic background, diverse industry experiences, and a knack for blending
         technologies, I thrive on turning ideas into reality.
         <br />
         <br />
-        Currently working on data analytics and growth enablement technologies at Ramp.
+        Currently working as a Software Engineer at Ramp in New York.
       </p>
     </div>
   </div>
@@ -41,6 +41,8 @@
           <a href="https://ramp.com/" target="_blank" class="link-hover link font-bold"> Ramp </a>
         </div>
         <div class="text-right font-bold">New York, NY</div>
+        <div>Software Engineer</div>
+        <div class="text-right">Aug 2026 - Present</div>
         <div>Software Engineering Intern</div>
         <div class="text-right">May - Aug 2025</div>
       </div>
