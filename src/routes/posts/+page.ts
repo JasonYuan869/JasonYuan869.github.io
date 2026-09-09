@@ -1,12 +1,11 @@
 import { getPosts } from '$lib';
-import { json } from '@sveltejs/kit';
 import type { PostMetadata } from '$lib/types';
 
 export interface PostsByMonth {
   [month: string]: { metadata: PostMetadata; path: string }[];
 }
 
-export async function load({ fetch }) {
+export async function load() {
   const allPosts = await getPosts();
 
   // Sort by date
